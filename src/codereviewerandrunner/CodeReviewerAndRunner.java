@@ -5,19 +5,7 @@
  */
 package codereviewerandrunner;
 import java.util.Scanner;
-import java.util.ArrayList;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement; // to execute SQL statements 
-import java.sql.ResultSet;
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
 
 /**
