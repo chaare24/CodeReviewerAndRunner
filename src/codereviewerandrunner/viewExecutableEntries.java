@@ -6,8 +6,6 @@
 package codereviewerandrunner;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -16,32 +14,13 @@ import java.sql.Statement;
  *
  * @author charlesarellano
  */
-public class viewAllEntries {
-    
-    public void view() {
-        String host = "jdbc:derby://localhost:1527/ReviewInformation";
-        String username = "Charles";
-        String password = "password";int count = 1;
-        try {
-            Connection con = DriverManager.getConnection( host, username, password );
-            retrieve(con);
-            System.out.print("\n");
-        }
-        catch (SQLException err) {
-            System.err.println(err.getMessage());
-        }
-    
-    }
-    
-    /**
-     * This function retrieves all of the database entries
-     * @param con Connection con created from above
-    */
+public class viewExecutableEntries extends viewAllEntries{
+    @Override
     public void retrieve(Connection con) {
         int count = 1;
         try {
             Statement stmt = con.createStatement();
-            String SQL = "SELECT * FROM INFORMATION";
+            String SQL = "SELECT * FROM INFORMATION WHERE Code IS NOT NULL";
             ResultSet rs = stmt.executeQuery(SQL);
             
             System.out.print("\nALL ENTRIES:\n");
@@ -60,6 +39,5 @@ public class viewAllEntries {
         }catch (SQLException err) {
             System.err.println(err.getMessage());
         }
-        
     }
 }

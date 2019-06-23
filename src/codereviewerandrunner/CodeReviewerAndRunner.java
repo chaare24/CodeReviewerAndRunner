@@ -19,17 +19,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-/** 
- * RESULT SET: 1) Move Forward through records
- * Type number 1 on the list above is called a TYPE_FORWARD_ONLY ResultSet. 
- * 
- * 2) Move Backwards and forward through records and detect any changes
- * Number 2 on the list is a TYPE_SCROLL_SENSITIVE ResultSet. 
- * 
- * 3) Same as 2 but neglect any changes
- * The third ResultSet option is called TYPE_SCROLL_INSENSITIVE.
- */
-
 
 /**
  *
@@ -53,25 +42,7 @@ public class CodeReviewerAndRunner {
             System.out.println("Enter correct file name(NA for No File): ");
             String fileName = input.nextLine();
             
-            File file = new File("/Users/charlesarellano/Documents/GitHub/CodeReviewerAndRunner/src/codereviewerandrunner/CorrectCode/"+fileName);
-            boolean exists = file.isFile();
-            if(fileName.equals("NA")){
-                exists = true;
-                fileName = null;
-            }
-            while(!exists) {
-                System.out.println("Not found in the CorrectCode folder, please try again.");
-                System.out.println("Enter correct file name(NA for No File): ");
-                if(fileName.equals("NA"))
-                {
-                    exists = true;
-                    fileName = null;
-                }
-                fileName = input.nextLine();
-                file = new File("/Users/charlesarellano/Documents/GitHub/CodeReviewerAndRunner/src/codereviewerandrunner/CorrectCode/"+fileName);
-                exists = file.isFile();
-                System.out.print(exists);
-            }
+            fileName = fileCorrectCodeChecker(fileName);
             
             /* Set topic and description and insert into dB */
             app.setTopic(name, desc, fileName);
@@ -84,6 +55,24 @@ public class CodeReviewerAndRunner {
         mainSelection();
     }
     
+    public static String fileCorrectCodeChecker(String fileName) {
+        Scanner input = new Scanner(System.in);
+        File file = new File("/Users/charlesarellano/Documents/GitHub/CodeReviewerAndRunner/src/codereviewerandrunner/CorrectCode/"+fileName);
+            boolean exists = file.isFile();
+            if(fileName.equals("NA")){
+                exists = true;
+                fileName = null;
+            }
+            while(!exists) {
+                System.out.println("Not found in the CorrectCode folder, please try again.");
+                System.out.print("Enter correct file name: ");
+                fileName = input.nextLine();
+                file = new File("/Users/charlesarellano/Documents/GitHub/CodeReviewerAndRunner/src/codereviewerandrunner/CorrectCode/"+fileName);
+                exists = file.isFile();
+            }
+        return fileName;
+    }
+    
     public static void viewAll() {
         viewAllEntries app = new viewAllEntries();
         app.view();
@@ -94,18 +83,42 @@ public class CodeReviewerAndRunner {
     }
     
     
-    /****************************
-    *   Title: <How to Compile and Run Java Program from another Java Program>
-    *   Author: <Pankaj>
-    *   Date: <2018>
-    *   Availability: <https://www.journaldev.com/937/compile-run-java-program-another-java-program>
-    * 
-    *   Modified to fit my requirements
-    ****************************/
+    
+    
+    public static void correctCodeSelector() {
+        Scanner input = new Scanner(System.in);
+        System.out.print("Which code would you like to run: ");
+        String fileName = input.nextLine();
+        
+        fileName = fileCorrectCodeChecker(fileName);
+        
+        runCode app = new runCode();
+        app.compileRunCode(fileName);
+        
+    }
     
     public static void runner() {
-        runCode app = new runCode();
-        app.compileRunCode();
+        Scanner input = new Scanner(System.in);
+        
+        System.out.println("What would you like to run?");
+        System.out.println("1:Correct Code\n2:Test your own");
+        System.out.print("Select: ");
+        String select = input.nextLine();
+        
+        if (select.equals("1")){
+            System.out.println("Would you like to see the list of all runable codes? (Y or N) ");
+            select = input.nextLine();
+            if (select.equals("Y")) {
+                viewExecutableEntries app = new viewExecutableEntries();
+                app.view();
+                correctCodeSelector();
+            } else {
+                correctCodeSelector();
+            }
+
+        } else {
+            
+        }
         
         // Need to have a runner for Correct Code 
         
@@ -128,7 +141,7 @@ public class CodeReviewerAndRunner {
                         break;
                 case 2: viewAll();
                         break;
-                case 3: System.out.println("\n");
+                case 3: System.out.print("\n");
                         runner();
                         break;
                 case 4: clear();

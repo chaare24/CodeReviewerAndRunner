@@ -8,19 +8,32 @@ package codereviewerandrunner;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.IOException;
+import org.apache.commons.io.FilenameUtils;
 
 /**
  *
  * @author charlesarellano
  */
+
+/****************************
+    *   Title: <How to Compile and Run Java Program from another Java Program>
+    *   Author: <Pankaj>
+    *   Date: <2018>
+    *   Availability: <https://www.journaldev.com/937/compile-run-java-program-another-java-program>
+    * 
+    *   Modified to fit my requirements
+    ****************************/
 public class runCode {
-    public void compileRunCode() {
+    public void compileRunCode(String fileName) {
+        String noExtension = FilenameUtils.removeExtension(fileName);
+        System.out.println("\nRUNNING:");
         try {
             runProcess("pwd");
             System.out.println("**********");
-            runProcess("javac -cp src src/codereviewerandrunner/CorrectCode/InsertionSort.java");
+            runProcess("javac -cp src src/codereviewerandrunner/CorrectCode/" + fileName);
             System.out.println("**********");
-            runProcess("java -cp src codereviewerandrunner/CorrectCode/InsertionSort");
+            runProcess("java -cp src codereviewerandrunner/CorrectCode/" + noExtension);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -42,4 +55,5 @@ public class runCode {
         pro.waitFor();
         System.out.println(" exitValue() " + pro.exitValue());
       }
+    
 }
