@@ -21,6 +21,7 @@ import java.sql.Statement;
 public class newEntry{
     private String topicName; 
     private String topicDesc;
+    private String topicFile;
     
     private Connection connect() {
         Connection con = null;
@@ -36,13 +37,15 @@ public class newEntry{
         return con;
     }
     
-    public void insert(String name, String desc) {
-        String sql = "INSERT INTO INFORMATION(topic,description) VALUES(?,?)";
+    public void insert(String name, String desc, String fileName) {
+        String sql = "INSERT INTO INFORMATION(topic,description,code,runtime) VALUES(?,?,?,?)";
  
         try (Connection conn = this.connect();
                 PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, name);
             pstmt.setString(2, desc);
+            pstmt.setString(3, fileName);
+            pstmt.setString(4, null);
             pstmt.executeUpdate();
             System.out.println("Inserted into dB.");
         } catch (SQLException e) {
@@ -56,9 +59,10 @@ public class newEntry{
      * @param topicName name of the topic 
      * @param desc description of the topic
     */
-    public newEntry(String topicName, String desc){
+    public newEntry(String topicName, String desc, String fileName){
         this.topicName = topicName;
         this.topicDesc = desc;
+        this.topicFile = fileName;
     }
     
     /**
@@ -68,10 +72,11 @@ public class newEntry{
      * Inserts information into database
     */
     
-    public void setTopic(String name, String desc){
+    public void setTopic(String name, String desc, String fileName){
         this.topicName = name;
         this.topicDesc = desc;
-        insert(name, desc);
+        this.topicFile = fileName;
+        insert(name, desc, fileName);
     }
     
     public String getTopicName() {

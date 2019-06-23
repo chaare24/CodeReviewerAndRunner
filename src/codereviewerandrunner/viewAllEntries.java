@@ -33,8 +33,13 @@ public class viewAllEntries {
             while (rs.next()) {
                 String topic = rs.getString("topic");
                 String desc = rs.getString("description");
+                String fN = rs.getString("code");
                 
-                System.out.println(count + " " + topic);
+                if(fN == null){
+                    fN="";
+                }
+                
+                System.out.println(count + " " + topic + " " + fN);
                 count++;
             }
             
