@@ -39,7 +39,7 @@ public class runCode {
         }
     }
     
-    private static void printLines(String cmd, InputStream ins) throws Exception {
+    protected static void printLines(String cmd, InputStream ins) throws Exception {
         String line = null;
         BufferedReader in = new BufferedReader(
             new InputStreamReader(ins));
@@ -48,7 +48,7 @@ public class runCode {
         }
       }
     
-    private static void runProcess(String command) throws Exception {
+    protected static void runProcess(String command) throws Exception {
         Process pro = Runtime.getRuntime().exec(command);
         printLines("stdout:", pro.getInputStream());
         printLines(command + " stderr:", pro.getErrorStream());

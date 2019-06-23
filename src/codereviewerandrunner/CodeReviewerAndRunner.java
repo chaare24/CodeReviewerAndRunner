@@ -73,6 +73,24 @@ public class CodeReviewerAndRunner {
         return fileName;
     }
     
+    public static String fileTestCodeChecker(String fileName) {
+        Scanner input = new Scanner(System.in);
+        File file = new File("/Users/charlesarellano/Documents/GitHub/CodeReviewerAndRunner/src/codereviewerandrunner/TestCode/"+fileName);
+            boolean exists = file.isFile();
+            if(fileName.equals("NA")){
+                exists = true;
+                fileName = null;
+            }
+            while(!exists) {
+                System.out.println("Not found in the CorrectCode folder, please try again.");
+                System.out.print("Enter correct file name: ");
+                fileName = input.nextLine();
+                file = new File("/Users/charlesarellano/Documents/GitHub/CodeReviewerAndRunner/src/codereviewerandrunner/TestCode/"+fileName);
+                exists = file.isFile();
+            }
+        return fileName;
+    }
+    
     public static void viewAll() {
         viewAllEntries app = new viewAllEntries();
         app.view();
@@ -81,10 +99,7 @@ public class CodeReviewerAndRunner {
     public static void clear(){
         System.out.print("\033[H\033[2J");
     }
-    
-    
-    
-    
+
     public static void correctCodeSelector() {
         Scanner input = new Scanner(System.in);
         System.out.print("Which code would you like to run: ");
@@ -94,6 +109,18 @@ public class CodeReviewerAndRunner {
         
         runCode app = new runCode();
         app.compileRunCode(fileName);
+        
+    }
+    
+    public static void testCodeSelector() {
+        Scanner input = new Scanner(System.in);
+        System.out.println("Please enter the file to run: ");
+        String fileName = input.nextLine();
+        
+        fileName = fileTestCodeChecker(fileName);
+        
+        runTestCode app = new runTestCode();
+        app.compileRunCode(fileName); // change
         
     }
     
@@ -115,9 +142,9 @@ public class CodeReviewerAndRunner {
             } else {
                 correctCodeSelector();
             }
-
         } else {
-            
+            // Runner for own code
+            testCodeSelector();
         }
         
         // Need to have a runner for Correct Code 
